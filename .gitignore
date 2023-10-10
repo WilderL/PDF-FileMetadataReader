@@ -22,3 +22,21 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Directorios específicos de NetBeans
+nbproject/
+build/
+dist/
+nbfolders.xml
+
+# Archivos de configuración de NetBeans
+nb-configuration.xml
+nbactions.xml
+.nb-gradle/
+build.xml
+
+# Logs de NetBeans
+var/
+
+# Archivos de formularios de NetBeans
+*.form
