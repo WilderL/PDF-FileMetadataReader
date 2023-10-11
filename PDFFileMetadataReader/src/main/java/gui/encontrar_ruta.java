@@ -1,9 +1,7 @@
 
 package gui;
 
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,7 +31,18 @@ public class encontrar_ruta {
             writer.println(ruta);
             writer.close();
         }catch (IOException e){
+            
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    
+    public void delete(String ruta){
+        try (PrintWriter writer = new PrintWriter(new FileWriter("Prueba.txt"))) {
+            // Al abrir el archivo en modo de escritura, el contenido existente se eliminará
+            System.out.println("Se ha vaciado el archivo para nuevas rutas");
+        } catch (IOException e) {
+            System.err.println("Error al intentar eliminar el contenido del archivo: " + e.getMessage());
         }
     }
 }
