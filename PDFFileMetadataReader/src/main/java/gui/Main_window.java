@@ -58,9 +58,10 @@ public class Main_window extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        encontrar_ruta find = new encontrar_ruta();
+        encontrar_ruta metodos = new encontrar_ruta();
         
-        find.find();
+        metodos.comprobarExistencia();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

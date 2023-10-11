@@ -27,7 +27,7 @@ public class encontrar_ruta {
     }
     public void escribir(String ruta) {
         try{
-            PrintWriter writer = new PrintWriter(new FileWriter("prueba.txt",true));
+            PrintWriter writer = new PrintWriter(new FileWriter("Prueba.txt",true));
             writer.println(ruta);
             writer.close();
         }catch (IOException e){
@@ -36,8 +36,18 @@ public class encontrar_ruta {
         }
     }
     
+    public void comprobarExistencia(){
+        File file = new File("Prueba.txt");
+        
+        if (file.exists()){
+            System.out.println("Aqui va el metodo xd");
+        }else{
+            find();
+        }
+                
+    }
     
-    public void delete(String ruta){
+    public void delete(){
         try (PrintWriter writer = new PrintWriter(new FileWriter("Prueba.txt"))) {
             // Al abrir el archivo en modo de escritura, el contenido existente se eliminará
             System.out.println("Se ha vaciado el archivo para nuevas rutas");
