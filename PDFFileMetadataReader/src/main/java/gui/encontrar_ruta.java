@@ -11,10 +11,10 @@ public class encontrar_ruta {
         int result = fileChooser.showOpenDialog(null);
         
         if (result == JFileChooser.APPROVE_OPTION) {
-                    String selectedFilePath = fileChooser.getSelectedFile().getAbsolutePath();
-                    System.out.println("Selected file/folder: " + selectedFilePath);
+                    String Path = fileChooser.getSelectedFile().getAbsolutePath();
+                    System.out.println("Archivo de ruta: " + Path);
                 } else {
-                    System.out.println("No file selected.");
+                    System.out.println("No se ha seleccionado.");
                 }  
     }
 }
