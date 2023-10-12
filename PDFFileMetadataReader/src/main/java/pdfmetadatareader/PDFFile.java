@@ -18,6 +18,8 @@ public class PDFFile {
     private ArrayList<String> listaFuentes;
     private Date fechaCreacion;
     private String herramientasCreacion;
+    private String resumen;
+    private String anotaciones;
 
     public PDFFile(long tamanoArchivo, long tamanoPagina, int numeroPaginas, String titulo, String asunto,
                         ArrayList<String> palabrasClave, String tipoArchivoPDF, String versionPDF, String aplicacionCreacion,
@@ -35,8 +37,26 @@ public class PDFFile {
         this.listaFuentes = listaFuentes;
         this.fechaCreacion = fechaCreacion;
         this.herramientasCreacion = herramientasCreacion;
+        this.resumen = null;
+        this.anotaciones = null;
     }
 
+    public String getResumen() {
+        return resumen;
+    }
+
+    public void setResumen(String resumen) {
+        this.resumen = resumen;
+    }
+
+    public String getAnotaciones() {
+        return anotaciones;
+    }
+
+    public void setAnotaciones(String anotaciones) {
+        this.anotaciones = anotaciones;
+    }
+    
     public long getTamanoPagina() {
         return tamanoPagina;
     }
