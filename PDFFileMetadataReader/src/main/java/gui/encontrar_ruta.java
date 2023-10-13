@@ -40,8 +40,9 @@ public class encontrar_ruta {
         File file = new File("Prueba.txt");
         
         if (file.exists()){
-            delete();
+            
         }else{
+            JOptionPane.showMessageDialog(null, "No se ha seleccionado una ruta, porfavor, selecciona una", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             find();
         }       
     }

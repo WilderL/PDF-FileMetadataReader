@@ -160,7 +160,8 @@ public class Main_window extends javax.swing.JFrame {
     }//GEN-LAST:event_Select_buttonActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        metodos.comprobarExistencia();
+        metodos.delete();
+        metodos.find();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jRadioButtonMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem2ActionPerformed
@@ -180,7 +181,7 @@ public class Main_window extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
+        metodos.comprobarExistencia();
     }//GEN-LAST:event_formWindowOpened
 
     /**
@@ -215,6 +216,7 @@ public class Main_window extends javax.swing.JFrame {
             @Override
             public void run() {
                 new Main_window().setVisible(true);
+                
                 
             }
         });
