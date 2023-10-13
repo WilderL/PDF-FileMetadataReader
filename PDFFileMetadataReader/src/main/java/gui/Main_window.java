@@ -4,6 +4,8 @@
  */
 package gui;
 
+import javax.swing.JButton;
+
 /**
  *
  * @author User
@@ -11,11 +13,14 @@ package gui;
 public class Main_window extends javax.swing.JFrame {
 
     private encontrar_ruta metodos = new encontrar_ruta();
-    private PdfDetailWindow Detail = new PdfDetailWindow();
-    
+    private PdfDetailWindow Detail = new PdfDetailWindow(this);
     
     public Main_window() {
         initComponents();
+    }
+    
+    public JButton getMiBoton() {
+        return Select_button;
     }
     
     /**

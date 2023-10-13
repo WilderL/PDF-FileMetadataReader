@@ -9,11 +9,12 @@ package gui;
  * @author User
  */
 public class PdfDetailWindow extends javax.swing.JFrame {
-    /**
-     * Creates new form PdfDetailWindow
-     */
-    public PdfDetailWindow() {
+    private Main_window MainWindow;
+    
+    public PdfDetailWindow(Main_window MainWindow) {
         initComponents();
+        this.MainWindow = MainWindow;
+         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -104,6 +105,9 @@ public class PdfDetailWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -259,6 +263,10 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         
     }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        MainWindow.getMiBoton().setEnabled(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
