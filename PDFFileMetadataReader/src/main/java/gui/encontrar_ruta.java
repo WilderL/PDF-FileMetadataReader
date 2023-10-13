@@ -40,11 +40,10 @@ public class encontrar_ruta {
         File file = new File("Prueba.txt");
         
         if (file.exists()){
-            System.out.println("Aqui va el metodo xd");
+            delete();
         }else{
             find();
-        }
-                
+        }       
     }
     
     public void delete(){

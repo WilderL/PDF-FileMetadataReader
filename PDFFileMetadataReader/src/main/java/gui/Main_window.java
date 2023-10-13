@@ -10,13 +10,14 @@ package gui;
  */
 public class Main_window extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main_window
-     */
+    private encontrar_ruta metodos = new encontrar_ruta();
+    private PdfDetailWindow Detail = new PdfDetailWindow();
+    
+    
     public Main_window() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,7 +28,7 @@ public class Main_window extends javax.swing.JFrame {
     private void initComponents() {
 
         jMenu3 = new javax.swing.JMenu();
-        jButton1 = new javax.swing.JButton();
+        Select_button = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -40,11 +41,24 @@ public class Main_window extends javax.swing.JFrame {
         jMenu3.setText("jMenu3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
-        jButton1.setText("Seleccionar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Select_button.setText("Seleccionar");
+        Select_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Select_buttonMouseClicked(evt);
+            }
+        });
+        Select_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Select_buttonActionPerformed(evt);
             }
         });
 
@@ -116,7 +130,7 @@ public class Main_window extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(Select_button)
                 .addGap(196, 196, 196))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -129,21 +143,19 @@ public class Main_window extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1))
+                .addComponent(Select_button))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        encontrar_ruta metodos = new encontrar_ruta();
-        
-        metodos.comprobarExistencia();
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void Select_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Select_buttonActionPerformed
+        Detail.setVisible(true);
+        Select_button.setEnabled(false);
+    }//GEN-LAST:event_Select_buttonActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        metodos.comprobarExistencia();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jRadioButtonMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem2ActionPerformed
@@ -153,6 +165,18 @@ public class Main_window extends javax.swing.JFrame {
     private void jScrollPane2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane2MouseDragged
         // TODO add your handling code here:
     }//GEN-LAST:event_jScrollPane2MouseDragged
+
+    private void Select_buttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Select_buttonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Select_buttonMouseClicked
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -186,12 +210,13 @@ public class Main_window extends javax.swing.JFrame {
             @Override
             public void run() {
                 new Main_window().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton Select_button;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

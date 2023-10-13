@@ -9,7 +9,6 @@ package gui;
  * @author User
  */
 public class PdfDetailWindow extends javax.swing.JFrame {
-
     /**
      * Creates new form PdfDetailWindow
      */
@@ -104,6 +103,11 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         jMenuBar6.add(jMenu12);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jScrollPane1.setAutoscrolls(true);
 
@@ -251,6 +255,10 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton2ActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
