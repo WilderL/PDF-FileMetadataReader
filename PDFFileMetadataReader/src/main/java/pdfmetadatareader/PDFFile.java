@@ -23,7 +23,8 @@ public class PDFFile {
 
     public PDFFile(long tamanoArchivo, long tamanoPagina, int numeroPaginas, String titulo, String asunto,
                         ArrayList<String> palabrasClave, String tipoArchivoPDF, String versionPDF, String aplicacionCreacion,
-                        ArrayList<String> listaImagenes, ArrayList<String> listaFuentes, Date fechaCreacion, String herramientasCreacion) {
+                        ArrayList<String> listaImagenes, ArrayList<String> listaFuentes, Date fechaCreacion, String herramientasCreacion,
+                        String resumen) {
         this.tamanoArchivo = tamanoArchivo;
         this.tamanoPagina = tamanoPagina;
         this.numeroPaginas = numeroPaginas;
@@ -37,7 +38,7 @@ public class PDFFile {
         this.listaFuentes = listaFuentes;
         this.fechaCreacion = fechaCreacion;
         this.herramientasCreacion = herramientasCreacion;
-        this.resumen = null;
+        this.resumen = resumen;
         this.anotaciones = null;
     }
 
