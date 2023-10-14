@@ -11,6 +11,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
 
+
 public class PDFMetadata {
     /**
     * Obtiene el tamaño de un archivo PDF en megabytes (MB).
@@ -124,4 +125,70 @@ public class PDFMetadata {
            return ""; // No se encontró una extensión válida.
        }
    }
+   
+   /**
+    * Obtiene el asunto de un archivo PDF.
+    *
+    * @param pdfFilePath La ruta del archivo PDF del que se desea obtener el asunto.
+    * @return El asunto del archivo PDF o una cadena vacía si no se encuentra ningún asunto.
+    * @throws IOException Si ocurre un error al cargar el archivo PDF.
+    */
+   public static String getPDFSubject(String pdfFilePath) throws IOException {
+       File pdfFile = new File(pdfFilePath);
+
+       try (PDDocument document = PDDocument.load(pdfFile)) {
+           String subject = document.getDocumentInformation().getSubject();
+           return subject != null ? subject : "";
+       }
+   }
+   
+   /**
+    * Obtiene las palabras clave de un archivo PDF.
+    *
+    * @param pdfFilePath La ruta del archivo PDF del que se desean obtener las palabras clave.
+    * @return Las palabras clave del archivo PDF o una cadena vacía si no se encuentran palabras clave.
+    * @throws IOException Si ocurre un error al cargar el archivo PDF.
+    */
+   public static String getPDFKeywords(String pdfFilePath) throws IOException {
+       File pdfFile = new File(pdfFilePath);
+
+       try (PDDocument document = PDDocument.load(pdfFile)) {
+           String keywords = document.getDocumentInformation().getKeywords();
+           return keywords != null ? keywords : "";
+       }
+   }
+   
+   /**
+    * Obtiene la versión de PDF de un archivo PDF.
+    *
+    * @param pdfFilePath La ruta del archivo PDF del que se desea obtener la versión de PDF.
+    * @return La versión de PDF del archivo PDF o una cadena vacía si no se encuentra ninguna versión.
+    * @throws IOException Si ocurre un error al cargar el archivo PDF.
+    */
+   public static String getPDFVersion(String pdfFilePath) throws IOException {
+       File pdfFile = new File(pdfFilePath);
+
+       try (PDDocument document = PDDocument.load(pdfFile)) {
+           float pdfVersion = document.getDocument().getVersion();
+           return String.valueOf(pdfVersion);
+       }
+   }
+   
+   /**
+    * Obtiene la aplicación con la que fue creada un archivo PDF.
+    *
+    * @param pdfFilePath La ruta del archivo PDF del que se desea obtener la aplicación de creación.
+    * @return La aplicación con la que fue creada el archivo PDF o una cadena vacía si no se encuentra información de la aplicación.
+    * @throws IOException Si ocurre un error al cargar el archivo PDF.
+    */
+   public static String getPDFCreationApplication(String pdfFilePath) throws IOException {
+       File pdfFile = new File(pdfFilePath);
+
+       try (PDDocument document = PDDocument.load(pdfFile)) {
+           String creator = document.getDocumentInformation().getCreator();
+           return creator != null ? creator : "";
+       }
+   }
+   
+
 }

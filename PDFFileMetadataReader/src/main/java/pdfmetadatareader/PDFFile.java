@@ -9,6 +9,7 @@ public class PDFFile {
     private long tamanoPagina;
     private int numeroPaginas;
     private String titulo;
+    private String nombreArchivo;
     private String asunto;
     private ArrayList<String> palabrasClave;
     private String tipoArchivoPDF;
@@ -21,13 +22,14 @@ public class PDFFile {
     private String resumen;
     private String anotaciones;
 
-    public PDFFile(long tamanoArchivo, long tamanoPagina, int numeroPaginas, String titulo, String asunto,
+    public PDFFile(long tamanoArchivo, long tamanoPagina, int numeroPaginas, String nombreArchivo, String titulo, String asunto,
                         ArrayList<String> palabrasClave, String tipoArchivoPDF, String versionPDF, String aplicacionCreacion,
                         ArrayList<String> listaImagenes, ArrayList<String> listaFuentes, Date fechaCreacion, String herramientasCreacion,
                         String resumen) {
         this.tamanoArchivo = tamanoArchivo;
         this.tamanoPagina = tamanoPagina;
         this.numeroPaginas = numeroPaginas;
+        this.nombreArchivo = nombreArchivo;
         this.titulo = titulo;
         this.asunto = asunto;
         this.palabrasClave = palabrasClave;
