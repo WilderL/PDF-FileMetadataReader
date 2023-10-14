@@ -3,10 +3,14 @@ package pdfmetadatareader;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 
@@ -190,5 +194,52 @@ public class PDFMetadata {
        }
    }
    
+   /**
+    * Obtiene la fecha de creación de un archivo PDF.
+    *
+    * @param pdfFilePath La ruta al archivo PDF del cual deseas obtener la fecha de creación.
+    * @return La fecha de creación del archivo PDF en formato de cadena o una cadena vacía si no se encuentra.
+    */
+   public static String getPDFCreationDate(String pdfFilePath) {
+       try {
+           File pdfFile = new File(pdfFilePath);
+           PDDocument document = PDDocument.load(pdfFile);
+           PDDocumentInformation info = document.getDocumentInformation();
+           Calendar fechaCreacion = info.getCreationDate();
 
+           if (fechaCreacion != null) {
+               SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+               return dateFormat.format(fechaCreacion);
+           } else {
+               return "";
+           }
+       } catch (IOException e) {
+           e.printStackTrace();
+           return "";
+       }
+   }
+   
+   /**
+    * Obtiene la herramienta de creación del archivo PDF.
+    *
+    * @param pdfFilePath La ruta al archivo PDF del cual deseas obtener la herramienta de creación.
+    * @return La herramienta de creación del archivo PDF o una cadena vacía si no se encuentra.
+    */
+   public static String getCreationToolPDF(String pdfFilePath) {
+       try {
+           File pdfFile = new File(pdfFilePath);
+           PDDocument document = PDDocument.load(pdfFile);
+           PDDocumentInformation info = document.getDocumentInformation();
+           String herramientaCreacion = info.getProducer();
+
+           if (herramientaCreacion != null && !herramientaCreacion.isEmpty()) {
+               return herramientaCreacion;
+           } else {
+               return "";
+           }
+       } catch (IOException e) {
+           e.printStackTrace();
+           return "";
+       }
+   }
 }
