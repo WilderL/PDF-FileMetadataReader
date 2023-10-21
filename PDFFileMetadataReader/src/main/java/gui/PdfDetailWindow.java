@@ -4,19 +4,57 @@
  */
 package gui;
 
-/**
- *
- * @author User
- */
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.SimpleAttributeSet;
+
+
 public class PdfDetailWindow extends javax.swing.JFrame {
     private Main_window MainWindow;
+    private boolean[] canEdit = new boolean[]{false,false,false,false,false,false,false};
+    StyleButtonActionListener custom;
+    private SimpleAttributeSet atributos;
+    private String [] head = new String[]{"Tamaño (Mb)", "Tamaño de página", "Version pdf", "Aplicación de creación", "Imagenes", "Fuentes", "Herramienta de creación"};
+           
+    private DefaultTableModel model = new DefaultTableModel(){
+                @Override
+            public boolean isCellEditable(int row, int column) {
+                return canEdit[column];
+            }
+        };
+    
+    private DefaultTableModel model2 = new DefaultTableModel(){
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return canEdit[column];
+            }
+    };
+    
+    private void initialTable(){
+        model.setColumnIdentifiers(head);
+        jTable2.setModel(model);
+        model.addRow(new Object[]{"1","2","3","4","5","6","7"});
+    }
+    
+    private void actualizar(){
+        boolean[] canEdit2 = new boolean[]{true,false,false,false,false,false,true};
+        canEdit = canEdit2;
+        model2.setColumnIdentifiers(head);
+        jTable2.setModel(model2);
+        model2.addRow(new Object[]{"1","2","3", "4","5","6","7"});
+    }
     
     public PdfDetailWindow(Main_window MainWindow) {
         initComponents();
+        atributos = new SimpleAttributeSet();
+        Button_bold.addActionListener(new StyleButtonActionListener(jTextPane1,"bold",atributos));
+        Button_italic.addActionListener(new StyleButtonActionListener(jTextPane1, "italic", atributos));
+        Button_subrayado.addActionListener(new StyleButtonActionListener(jTextPane1, "underline", atributos));
         this.MainWindow = MainWindow;
-         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        initialTable();
     }
-
+    
+    
     private PdfDetailWindow() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -52,19 +90,19 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         buttonGroup2 = new javax.swing.ButtonGroup();
         buttonGroup3 = new javax.swing.ButtonGroup();
         buttonGroup4 = new javax.swing.ButtonGroup();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla1 = new javax.swing.JScrollPane();
+        Tabla1 = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        jTextPane2 = new javax.swing.JTextPane();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea3 = new javax.swing.JTextArea();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        jTextPane1 = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        Button_bold = new javax.swing.JButton();
+        Button_italic = new javax.swing.JButton();
+        Button_subrayado = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -117,9 +155,9 @@ public class PdfDetailWindow extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setAutoscrolls(true);
+        tabla1.setAutoscrolls(true);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        Tabla1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -129,45 +167,34 @@ public class PdfDetailWindow extends javax.swing.JFrame {
             new String [] {
                 "Nombre ", "Asunto", "Autor", "Título", "Palabras Clave", "Fecha de creación", "Tipo de archivo"
             }
-        ));
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(6).setHeaderValue("Tipo de archivo");
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        Tabla1.getTableHeader().setReorderingAllowed(false);
+        tabla1.setViewportView(Tabla1);
+        if (Tabla1.getColumnModel().getColumnCount() > 0) {
+            Tabla1.getColumnModel().getColumn(0).setHeaderValue("Nombre ");
+            Tabla1.getColumnModel().getColumn(1).setHeaderValue("Asunto");
+            Tabla1.getColumnModel().getColumn(2).setHeaderValue("Autor");
+            Tabla1.getColumnModel().getColumn(3).setHeaderValue("Título");
+            Tabla1.getColumnModel().getColumn(4).setHeaderValue("Palabras Clave");
+            Tabla1.getColumnModel().getColumn(5).setHeaderValue("Fecha de creación");
+            Tabla1.getColumnModel().getColumn(6).setHeaderValue("Tipo de archivo");
         }
 
         jLabel2.setText("Resumen");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        jScrollPane3.setViewportView(jTextPane2);
 
         jLabel3.setText("Anotaciones");
 
-        jTextArea3.setColumns(20);
-        jTextArea3.setRows(5);
-        jScrollPane4.setViewportView(jTextArea3);
-
-        jRadioButton1.setText("Negrita");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
-            }
-        });
-
-        jRadioButton2.setText("Italica");
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton2ActionPerformed(evt);
-            }
-        });
-
-        jRadioButton3.setText("Subrayado");
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton3ActionPerformed(evt);
-            }
-        });
+        jScrollPane4.setViewportView(jTextPane1);
 
         jScrollPane2.setAutoscrolls(true);
 
@@ -181,21 +208,60 @@ public class PdfDetailWindow extends javax.swing.JFrame {
             new String [] {
                 "Tamaño (Mb)", "Tamaño de página", "Version pdf", "Aplicación de creación", "Imagenes", "Fuentes", "Herramienta de creación"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jTable2.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable2);
+
+        Button_bold.setText("Negrita");
+        Button_bold.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Button_boldMouseClicked(evt);
+            }
+        });
+        Button_bold.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_boldActionPerformed(evt);
+            }
+        });
+
+        Button_italic.setText("Italica");
+        Button_italic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_italicActionPerformed(evt);
+            }
+        });
+
+        Button_subrayado.setText("Subrayado");
+        Button_subrayado.setToolTipText("");
 
         jMenu1.setText("File");
 
         jMenuItem2.setText("Guardar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
 
-        jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("Modificar datos");
+        jRadioButtonMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButtonMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jRadioButtonMenuItem1);
 
         jMenuBar1.add(jMenu2);
@@ -209,18 +275,18 @@ public class PdfDetailWindow extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+                    .addComponent(tabla1)
+                    .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(237, 237, 237)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton1)
+                        .addComponent(Button_bold)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton2)
+                        .addComponent(Button_italic)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton3)
+                        .addComponent(Button_subrayado)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,37 +298,25 @@ public class PdfDetailWindow extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tabla1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
+                    .addComponent(Button_bold)
+                    .addComponent(Button_subrayado)
+                    .addComponent(Button_italic, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
-
-    private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton3ActionPerformed
-
-    private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         
@@ -271,6 +325,45 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         MainWindow.getMiBoton().setEnabled(true);
     }//GEN-LAST:event_formWindowClosed
+
+    private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
+    Tabla1.setModel(new javax.swing.table.DefaultTableModel(
+    new Object [][] {
+        {null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null},
+        {null, null, null, null, null, null, null}
+    },
+    new String [] {
+        "Nombre ", "Asunto", "Autor", "Título", "Palabras Clave", "Fecha de creación", "Tipo de archivo"
+    }
+) {
+    boolean[] canEdit = new boolean [] {
+        true, true, true, true, true, true, true
+    };
+
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return canEdit [columnIndex];
+    }
+});
+    }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        actualizar();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void Button_boldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_boldActionPerformed
+        
+    }//GEN-LAST:event_Button_boldActionPerformed
+
+    private void Button_boldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Button_boldMouseClicked
+
+    }//GEN-LAST:event_Button_boldMouseClicked
+
+    private void Button_italicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_italicActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Button_italicActionPerformed
 
     /**
      * @param args the command line arguments
@@ -309,6 +402,10 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_bold;
+    private javax.swing.JButton Button_italic;
+    private javax.swing.JButton Button_subrayado;
+    private javax.swing.JTable Tabla1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
@@ -337,17 +434,14 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextArea jTextArea3;
+    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JScrollPane tabla1;
     // End of variables declaration//GEN-END:variables
+
 }
