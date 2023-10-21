@@ -249,12 +249,12 @@ public class PDFMetadata {
    }
    
    /**
-     * Método para extraer el resumen de un archivo PDF.
+     * Obtiene el resumen de un archivo PDF.
      *
      * @param pdfFilePath La ruta al archivo PDF del que se desea extraer el resumen.
      * @return El resumen del PDF si se encuentra, o "No hay resumen" si no se encuentra.
      */
-    public static String extractSummaryFromPdf(String pdfFilePath) {
+    public static String getSummaryFromPdf(String pdfFilePath) {
         try {
             File file = new File(pdfFilePath);
             PDDocument document = PDDocument.load(file);
@@ -299,12 +299,12 @@ public class PDFMetadata {
     }
     
     /**
-     * Método para extraer fuentes mencionadas en un archivo PDF.
+     * Obtiene fuentes de las imágenes en un archivo PDF.
      *
      * @param pdfFilePath La ruta al archivo PDF del que se desea extraer las fuentes.
      * @return Una lista de fuentes encontradas en el PDF o "No existen fuentes" si no se encuentran.
      */
-    public static String extractSourcesFromPdf(String pdfFilePath) {
+    public static String getSourcesImagePdf(String pdfFilePath) {
         try {
             File file = new File(pdfFilePath);
             PDDocument document = PDDocument.load(file);
@@ -345,12 +345,12 @@ public class PDFMetadata {
     }
     
     /**
-     * Método para contar la cantidad de imágenes en un archivo PDF.
+     * Ontiene la cantidad de imágenes en un archivo PDF.
      *
      * @param pdfFilePath La ruta al archivo PDF del que se desea contar las imágenes.
      * @return El número de imágenes en el PDF o "No hay imágenes" si no se encuentran.
      */
-    public static String countImagesInPdf(String pdfFilePath) {
+    public static String getImagesInPdf(String pdfFilePath) {
         try {
             File file = new File(pdfFilePath);
             PDDocument document = PDDocument.load(file);
