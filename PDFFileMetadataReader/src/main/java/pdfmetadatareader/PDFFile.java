@@ -66,8 +66,7 @@ public class PDFFile implements Serializable{
         this.resumen = resumen;
         this.anotaciones = "No hay anotaciones";
     }
-
-    /**
+/**
      * Obtiene el tamaño del archivo en bytes.
      *
      * @return El tamaño del archivo en bytes.
@@ -137,6 +136,24 @@ public class PDFFile implements Serializable{
      */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    /**
+     * Obtiene el autor del PDF.
+     *
+     * @return El autor del PDF.
+     */
+    public String getAutor() {
+        return autor;
+    }
+
+    /**
+     * Establece el autor del PDF.
+     *
+     * @param autor El autor del PDF a establecer.
+     */
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
     /**

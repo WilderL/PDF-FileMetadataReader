@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -122,6 +123,64 @@ public class PDFFileFinder {
        return file.exists();
    }
 
+   /**
+     * Ordena la lista de archivos PDF por autor y devuelve una nueva lista (normal o inversa).
+     *
+     * @param pdfFileList La lista de archivos PDF a ordenar.
+     * @return Una nueva lista ordenada por autor.
+     */
+    public static List<PDFFile> sortByAuthor(List<PDFFile> pdfFileList) {
+        if (isSortedByAuthor(pdfFileList)) {
+            Collections.reverse(pdfFileList);
+        } else {
+            Collections.sort(pdfFileList, (pdf1, pdf2) -> pdf1.getAutor().compareTo(pdf2.getAutor()));
+        }
+        return new ArrayList<>(pdfFileList);
+    }
 
+    /**
+     * Ordena la lista de archivos PDF por asunto y devuelve una nueva lista (normal o inversa).
+     *
+     * @param pdfFileList La lista de archivos PDF a ordenar.
+     * @return Una nueva lista ordenada por asunto.
+     */
+    public static List<PDFFile> sortBySubject(List<PDFFile> pdfFileList) {
+        if (isSortedBySubject(pdfFileList)) {
+            Collections.reverse(pdfFileList);
+        } else {
+            Collections.sort(pdfFileList, (pdf1, pdf2) -> pdf1.getAsunto().compareTo(pdf2.getAsunto()));
+        }
+        return new ArrayList<>(pdfFileList);
+    }
+
+    /**
+     * Verifica si la lista está ordenada por autor.
+     *
+     * @param pdfList La lista de archivos PDF a verificar.
+     * @return true si la lista está ordenada por autor, false en caso contrario.
+     */
+    private static boolean isSortedByAuthor(List<PDFFile> pdfFileList) {
+        for (int i = 0; i < pdfFileList.size() - 1; i++) {
+            if (pdfFileList.get(i).getAutor().compareTo(pdfFileList.get(i + 1).getAutor()) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Verifica si la lista está ordenada por asunto.
+     *
+     * @param pdfList La lista de archivos PDF a verificar.
+     * @return true si la lista está ordenada por asunto, false en caso contrario.
+     */
+    private static boolean isSortedBySubject(List<PDFFile> pdfFileList) {
+        for (int i = 0; i < pdfFileList.size() - 1; i++) {
+            if (pdfFileList.get(i).getAsunto().compareTo(pdfFileList.get(i + 1).getAsunto()) > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
