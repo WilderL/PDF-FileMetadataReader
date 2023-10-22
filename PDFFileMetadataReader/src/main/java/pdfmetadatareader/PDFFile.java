@@ -10,6 +10,7 @@ public class PDFFile implements Serializable{
     private String tamanoPagina;
     private int numeroPaginas;
     private String titulo;
+    private String autor;
     private String nombreArchivo;
     private String asunto;
     private String palabrasClave;
@@ -30,6 +31,7 @@ public class PDFFile implements Serializable{
      * @param tamanoPagina El tamaño de la página del PDF.
      * @param numeroPaginas El número de páginas en el PDF.
      * @param titulo El título del PDF.
+     * @param autor El autor del PDF.
      * @param nombreArchivo El nombre del archivo PDF.
      * @param asunto El asunto del PDF.
      * @param palabrasClave Las palabras clave del PDF.
@@ -43,13 +45,14 @@ public class PDFFile implements Serializable{
      * @param resumen Un resumen del contenido del PDF.
      */
     public PDFFile(long tamanoArchivo, String tamanoPagina, int numeroPaginas, String titulo, 
-            String nombreArchivo, String asunto, String palabrasClave, String tipoArchivoPDF, 
+            String autor, String nombreArchivo, String asunto, String palabrasClave, String tipoArchivoPDF, 
             String versionPDF, String aplicacionCreacion, String listaImagenes, String listaFuentes, 
-            String fechaCreacion, String herramientasCreacion, String resumen) {
+            String fechaCreacion, String herramientasCreacion, String resumen) {    
         this.tamanoArchivo = tamanoArchivo;
         this.tamanoPagina = tamanoPagina;
         this.numeroPaginas = numeroPaginas;
         this.titulo = titulo;
+        this.autor = autor;
         this.nombreArchivo = nombreArchivo;
         this.asunto = asunto;
         this.palabrasClave = palabrasClave;
@@ -61,7 +64,7 @@ public class PDFFile implements Serializable{
         this.fechaCreacion = fechaCreacion;
         this.herramientasCreacion = herramientasCreacion;
         this.resumen = resumen;
-        this.anotaciones = null;
+        this.anotaciones = "No hay anotaciones";
     }
 
     /**

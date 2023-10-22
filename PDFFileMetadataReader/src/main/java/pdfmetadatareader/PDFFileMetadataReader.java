@@ -19,6 +19,7 @@ public class PDFFileMetadataReader {
 
             if (!pdfFileFinder.pdfFileListExist()) {
                 try {
+                    path.comprobarExistencia();
                     String folderPath = path.find();      
                     List<PDFFile> pdfFiles = pdfFileFinder.findPdfFiles(folderPath);
                     pdfFileFinder.savePDFFileList(pdfFiles);

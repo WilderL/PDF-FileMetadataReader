@@ -18,6 +18,7 @@ public class PDFFileFinder {
     private String tamanoPagina;
     private int numeroPaginas;
     private String titulo;
+    private String autor;
     private String nombreArchivo;
     private String asunto;
     private String palabrasClave;
@@ -56,6 +57,7 @@ public class PDFFileFinder {
                              tamanoArchivo = (long) PDFMetadata.getPDFSizeInMB(pdfFilePath);
                              tamanoPagina =  PDFMetadata.getPageSizesFromPDF(pdfFilePath);
                              titulo = PDFMetadata.getPDFTitle(pdfFilePath);
+                             autor = PDFMetadata.getAuthorPDF(pdfFilePath);
                              nombreArchivo = PDFMetadata.getPDFFileName(pdfFilePath);
                              asunto = PDFMetadata.getPDFSubject(pdfFilePath);
                              palabrasClave = PDFMetadata.getPDFKeywords(pdfFilePath);
@@ -69,7 +71,7 @@ public class PDFFileFinder {
                              resumen = PDFMetadata.getSummaryFromPdf(pdfFilePath);
                             
                             PDFFile pdfFile = new PDFFile(tamanoArchivo, tamanoPagina, numeroPaginas, titulo, 
-                                    nombreArchivo, asunto, palabrasClave, tipoArchivoPDF, versionPDF, 
+                                    autor, nombreArchivo, asunto, palabrasClave, tipoArchivoPDF, versionPDF, 
                                     aplicacionCreacion, listaImagenes, listaFuentes, fechaCreacion, 
                                     herramientasCreacion, resumen);
                             pdfFiles.add(pdfFile);
