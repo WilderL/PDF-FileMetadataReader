@@ -5,6 +5,7 @@
 package gui;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.SimpleAttributeSet;
 import pdfmetadatareader.PDFFile;
@@ -12,38 +13,112 @@ import pdfmetadatareader.PDFFile;
 
 public class PdfDetailWindow extends javax.swing.JFrame {
     private Main_window MainWindow;
-    private boolean[] canEdit = new boolean[]{false,false,false,false,false,false,false};
     StyleButtonActionListener custom;
     private SimpleAttributeSet atributos;
     private PDFFile pdfFile;
-    private String [] head = new String[]{"Tamaño (Mb)", "Tamaño de página", "Version pdf", "Aplicación de creación", "Imagenes", "Fuentes", "Herramienta de creación"};
-           
-    private DefaultTableModel model = new DefaultTableModel(){
+    private String [] headJ1 = new String[]{"Nombre", "Autor","Asunto", "Titulo", "Palabras clave", "Fecha de creacion","Tipo de archivo"};
+    private String [] headJ2 = new String[]{"Tamaño (Mb)", "Tamaño de página", "Version pdf", "Aplicación de creación", "Imagenes", "Fuentes", "Herramienta de creación"};
+    
+    // Modelo inicial de la tabla superior para mejor manejo
+    private DefaultTableModel modelT1 = new DefaultTableModel(){
+            boolean[] canEdit = new boolean[]{false,false,false,false,false,false,false};
+                @Override
+            public boolean isCellEditable(int row, int column) {
+                return canEdit[column];
+            }
+        };
+    // Modelo modificado de la tabla superior con la actualizacion de la funcion isCellEditable
+    private DefaultTableModel modelT2 = new DefaultTableModel(){
+            boolean[] canEdit = new boolean[]{false,false,false,false,false,false,false};
+            @Override
+            public boolean isCellEditable(int row, int column){
+                return canEdit[column];
+            }
+    };
+    // Modelo inicial de la tabla inferior para mejorar manejo
+    private DefaultTableModel modelT1U = new DefaultTableModel(){
+            boolean[] canEdit = new boolean[]{true,false,true,true,true,false,false};
                 @Override
             public boolean isCellEditable(int row, int column) {
                 return canEdit[column];
             }
         };
     
-    private DefaultTableModel model2 = new DefaultTableModel(){
+    //Modelo modificado de la tabla inferior con la actualizacion de la funcion isCellEditable
+    private DefaultTableModel modelT2U = new DefaultTableModel(){
+            boolean[] canEdit = new boolean[]{false,false,false,false,false,false,false};
             @Override
             public boolean isCellEditable(int row, int column){
                 return canEdit[column];
             }
     };
     
-    private void initialTable(){
-        model.setColumnIdentifiers(head);
-        jTable2.setModel(model);
-        model.addRow(new Object[]{"1","2","3","4","5","6","7"});
+    // Datos para llenar la tabla superior
+    private Object takeDataJ1(){
+        String nombre = pdfFile.getNombreArchivo();
+        String autor = "Todavía no hay xd";
+        String asunto = pdfFile.getAsunto();
+        String titulo = pdfFile.getTitulo();
+        String palabrasClave = pdfFile.getPalabrasClave();
+        String fechaCreacion = pdfFile.getFechaCreacion();
+        String tipoArchivo = pdfFile.getTipoArchivoPDF();
+        
+        return new Object[]{nombre,autor,asunto,titulo,palabrasClave,fechaCreacion,tipoArchivo};
+    }
+    // Datos para llenar la tabla inferior
+    private Object takeDataJ2(){
+        Long tamano = pdfFile.getTamanoArchivo();
+        int tamanoPaginas = pdfFile.getNumeroPaginas();
+        String version = pdfFile.getVersionPDF();
+        String aplicacion = pdfFile.getAplicacionCreacion();
+        String imagenes = pdfFile.getListaImagenes();
+        String fuentes = pdfFile.getListaFuentes();
+        String herramientas = pdfFile.getHerramientasCreacion();
+        
+        return new Object[]{tamano,tamanoPaginas,version,aplicacion,imagenes,fuentes,herramientas};
     }
     
-    private void actualizar(){
-        boolean[] canEdit2 = new boolean[]{true,false,false,false,false,false,true};
-        canEdit = canEdit2;
-        model2.setColumnIdentifiers(head);
-        jTable2.setModel(model2);
-        model2.addRow(new Object[]{"1","2","3", "4","5","6","7"});
+    // Tabla inicial con datos restringidos
+    private void initialTable(){  
+        modelT1.setColumnIdentifiers(headJ1);
+        Tabla1.setModel(modelT1);
+        modelT1.addRow((Object[]) takeDataJ1());
+        modelT2.setColumnIdentifiers(headJ2);
+        jTable2.setModel(modelT2);
+        modelT2.addRow((Object[]) takeDataJ2());
+        String resumen = pdfFile.getResumen();
+        jTextPane2.setText(resumen);
+    }
+    
+    //Modelo con las opciones de modificaciones:
+    private void editableEnable(){
+        modelT1U.setColumnIdentifiers(headJ1);
+        Tabla1.setModel(modelT1U);
+        modelT1U.addRow((Object[]) takeDataJ1());
+        modelT2U.setColumnIdentifiers(headJ2);
+        jTable2.setModel(modelT2U);
+        modelT2U.addRow((Object[]) takeDataJ2());
+        String resumen = pdfFile.getResumen();
+        jTextPane2.setText(resumen);
+    }
+    
+    // Funcion para guardar los datos modificados:
+    private void saverDataNew(){
+        Object nombre = modelT1U.getValueAt(0, 0);
+        Object asunto = modelT1U.getValueAt(0,2);
+        Object titulo = modelT1U.getValueAt(0,3);
+        Object palabrasClave = modelT1U.getValueAt(0,4);
+        String resumen = jTextPane2.getText();
+        String anotaciones = jTextPane1.getText();
+        
+        pdfFile.setNombreArchivo((String) nombre);
+        pdfFile.setAsunto((String) asunto);
+        pdfFile.setTitulo((String) titulo);
+        pdfFile.setPalabrasClave((String) palabrasClave);
+        pdfFile.setResumen(resumen);
+        pdfFile.setAnotaciones(anotaciones);
+        
+        JOptionPane.showMessageDialog(null, "Datos guardados con éxito", "Aviso", JOptionPane.DEFAULT_OPTION);
     }
     
     public PdfDetailWindow(Main_window MainWindow, PDFFile pdfFile) {
@@ -56,6 +131,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         this.pdfFile = pdfFile;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         initialTable();
+        jMenuItem2.setEnabled(false);
     }
     
     
@@ -306,12 +382,13 @@ public class PdfDetailWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(Button_bold)
-                    .addComponent(Button_subrayado)
-                    .addComponent(Button_italic, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Button_italic, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(Button_bold)
+                        .addComponent(Button_subrayado)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
@@ -331,30 +408,13 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
-    Tabla1.setModel(new javax.swing.table.DefaultTableModel(
-    new Object [][] {
-        {null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null},
-        {null, null, null, null, null, null, null}
-    },
-    new String [] {
-        "Nombre ", "Asunto", "Autor", "Título", "Palabras Clave", "Fecha de creación", "Tipo de archivo"
-    }
-) {
-    boolean[] canEdit = new boolean [] {
-        true, true, true, true, true, true, true
-    };
-
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return canEdit [columnIndex];
-    }
-});
+        editableEnable();
+        jRadioButtonMenuItem1.setEnabled(false);
+        jMenuItem2.setEnabled(true);
     }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        actualizar();
+        saverDataNew();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void Button_boldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_boldActionPerformed

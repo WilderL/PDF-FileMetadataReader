@@ -6,26 +6,51 @@ package gui;
 
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.table.DefaultTableModel;
 import pdfmetadatareader.PDFFile;
 
 /**
  *
  * @author User
  */
-public class Main_window extends javax.swing.JFrame {
+public final class Main_window extends javax.swing.JFrame {
 
     private EncontrarRuta metodos = new EncontrarRuta();
     private PdfDetailWindow Detail;
     private List<PDFFile> pdfFiles;
+    private String [] headJ1 = new String[]{"Nombre", "Autor", "Asunto"};
+    
+    private DefaultTableModel model = new DefaultTableModel(){
+            boolean[] canEdit = new boolean[]{false,false,false};
+                @Override
+            public boolean isCellEditable(int row, int column) {
+                return canEdit[column];
+            }
+        };
+    
+    public void chargerpdfs(){
+        for (int i = 0; i < pdfFiles.size(); i++) {
+            PDFFile pdf = pdfFiles.get(i);    
+            model.addRow(new Object[]{pdf.getNombreArchivo(),"No hay autor aun",pdf.getAsunto()});
+        }
+    }
+    
+    public void createTable(){
+        model.setColumnIdentifiers(headJ1);
+        jTable1.setModel(model);
+        chargerpdfs();
+    }
     
     public Main_window(List<PDFFile> pdfFiles) {
         initComponents();
         this.pdfFiles = pdfFiles;
+        createTable();
     }
     
     public JButton getMiBoton() {
         return Select_button;
     }
+
     
     /**
      * This method is called from within the constructor to initialize the form.
