@@ -87,7 +87,7 @@ public class PDFFileFinder {
      *
      * @param pdfFileList Lista de objetos PDFFile que se desea guardar en el archivo.
      */
-    public static void savePDFFileList(List<PDFFile> pdfFileList) {
+    public void savePDFFileList(List<PDFFile> pdfFileList) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(OUTPUT_PATH))) {
             oos.writeObject(pdfFileList);
         } catch (IOException e) {
@@ -100,7 +100,7 @@ public class PDFFileFinder {
      *
      * @return Una lista de objetos PDFFile cargada desde el archivo.
      */
-    public static List<PDFFile> loadPDFFileList() {
+    public List<PDFFile> loadPDFFileList() {
         List<PDFFile> pdfFiles = null;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(OUTPUT_PATH))) {
             pdfFiles = (List<PDFFile>) ois.readObject();
@@ -109,6 +109,17 @@ public class PDFFileFinder {
         }
         return pdfFiles;
     }
+    
+    /**
+    * Verifica si el archivo pdfFileList.ser existe.
+    *
+    * @return true si el archivo existe, false si no.
+    */
+   public boolean pdfFileListExist() {
+       File file = new File(OUTPUT_PATH);
+       return file.exists();
+   }
+
 
 }
 

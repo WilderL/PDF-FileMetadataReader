@@ -249,7 +249,7 @@ public class PDFMetadata {
 
            if (fechaCreacion != null) {
                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-               return dateFormat.format(fechaCreacion);
+               return dateFormat.format(fechaCreacion.getTime()); // Obtén la fecha como un objeto Date y formatea eso.
            } else {
                return "";
            }

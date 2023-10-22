@@ -1,9 +1,11 @@
 package pdfmetadatareader;
 
+import java.io.Serializable;
+
 /**
  * Clase que representa la información de un archivo PDF.
  */
-public class PDFFile {
+public class PDFFile implements Serializable{
     private long tamanoArchivo;
     private String tamanoPagina;
     private int numeroPaginas;
