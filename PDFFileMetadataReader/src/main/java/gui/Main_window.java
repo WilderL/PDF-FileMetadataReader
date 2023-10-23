@@ -4,10 +4,16 @@
  */
 package gui;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.table.DefaultTableModel;
 import pdfmetadatareader.PDFFile;
+import pdfmetadatareader.PDFFileFinder;
 
 /**
  *
@@ -19,6 +25,24 @@ public final class Main_window extends javax.swing.JFrame {
     private PdfDetailWindow Detail;
     private List<PDFFile> pdfFiles;
     private String [] headJ1 = new String[]{"Nombre", "Autor", "Asunto"};
+    private PDFFileFinder Save = new PDFFileFinder();
+    
+    public void savePDFFileList() {
+        Save.savePDFFileList(pdfFiles);
+        pdfFiles = Save.loadPDFFileList();
+    }
+    
+    public void ordenarAutor(){
+        pdfFiles = Save.sortByAuthor(pdfFiles);
+        savePDFFileList();
+        createTable();
+    }
+    
+    public void ordenarAsunto(){
+        pdfFiles = Save.sortBySubject(pdfFiles);
+        savePDFFileList();
+        createTable();
+    }
     
     private DefaultTableModel model = new DefaultTableModel(){
             boolean[] canEdit = new boolean[]{false,false,false};
@@ -69,8 +93,8 @@ public final class Main_window extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        jRadioButtonMenuItem2 = new javax.swing.JRadioButtonMenuItem();
+        jMenuAutor = new javax.swing.JMenuItem();
+        jMenuItemAsunto = new javax.swing.JMenuItem();
 
         jMenu3.setText("jMenu3");
 
@@ -141,18 +165,21 @@ public final class Main_window extends javax.swing.JFrame {
 
         jMenu2.setText("Ordenar");
 
-        jRadioButtonMenuItem1.setSelected(true);
-        jRadioButtonMenuItem1.setText("Por asunto");
-        jMenu2.add(jRadioButtonMenuItem1);
-
-        jRadioButtonMenuItem2.setSelected(true);
-        jRadioButtonMenuItem2.setText("Por autor");
-        jRadioButtonMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuAutor.setText("Por autor");
+        jMenuAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButtonMenuItem2ActionPerformed(evt);
+                jMenuAutorActionPerformed(evt);
             }
         });
-        jMenu2.add(jRadioButtonMenuItem2);
+        jMenu2.add(jMenuAutor);
+
+        jMenuItemAsunto.setText("Por asunto");
+        jMenuItemAsunto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemAsuntoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItemAsunto);
 
         jMenuBar1.add(jMenu2);
 
@@ -193,12 +220,15 @@ public final class Main_window extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         metodos.delete();
-        metodos.find();
+        String folderPath = metodos.find();
+        try {
+            pdfFiles.add((PDFFile) Save.findPdfFiles(folderPath));
+            savePDFFileList();
+        } catch (IOException ex) {
+            Logger.getLogger(Main_window.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        createTable();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jRadioButtonMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButtonMenuItem2ActionPerformed
 
     private void jScrollPane2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane2MouseDragged
         // TODO add your handling code here:
@@ -215,15 +245,23 @@ public final class Main_window extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
     }//GEN-LAST:event_formWindowOpened
 
+    private void jMenuItemAsuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAsuntoActionPerformed
+        ordenarAsunto();
+    }//GEN-LAST:event_jMenuItemAsuntoActionPerformed
+
+    private void jMenuAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuAutorActionPerformed
+        ordenarAutor();
+    }//GEN-LAST:event_jMenuAutorActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Select_button;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuItem jMenuAutor;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem2;
+    private javax.swing.JMenuItem jMenuItemAsunto;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables

@@ -191,7 +191,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -340,13 +340,13 @@ public class PdfDetailWindow extends javax.swing.JFrame {
 
         jMenu2.setText("Edit");
 
-        jRadioButtonMenuItem1.setText("Modificar datos");
-        jRadioButtonMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem5.setText("Editar");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButtonMenuItem1ActionPerformed(evt);
+                jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu2.add(jRadioButtonMenuItem1);
+        jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
 
@@ -411,15 +411,10 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         MainWindow.getMiBoton().setEnabled(true);
     }//GEN-LAST:event_formWindowClosed
 
-    private void jRadioButtonMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonMenuItem1ActionPerformed
-        editableEnable();
-        jRadioButtonMenuItem1.setEnabled(false);
-        jMenuItem2.setEnabled(true);
-    }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
-
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-
         saverDataNew();
+        jMenuItem2.setEnabled(false);
+        jMenuItem5.setEnabled(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void Button_boldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_boldActionPerformed
@@ -433,6 +428,12 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private void Button_italicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_italicActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_Button_italicActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        editableEnable();
+        jMenuItem5.setEnabled(false);
+        jMenuItem2.setEnabled(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Button_bold;
@@ -467,7 +468,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
