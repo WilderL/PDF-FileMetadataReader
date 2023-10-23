@@ -39,35 +39,62 @@ public class PDFMetadata {
        return fileSizeMB;
    }
    
-    /**
-  * Obtiene la información de tamaño de página de un archivo PDF.
-  *
-  * @param pdfFilePath La ruta del archivo PDF del que se desea obtener la información de tamaño de página.
-  * @return Una lista de cadenas de texto que contienen el ancho y el alto de cada página del PDF.
-  * @throws IOException Si ocurre un error al cargar el archivo PDF.
-  */
-   public static String getPageSizesFromPDF(String pdfFilePath) throws IOException {
-        String sizeInfo;
-        float widthInInches = 0;
-        float heightInInches = 0;
-        File pdfFile = new File(pdfFilePath);
-    
-        try (PDDocument document = PDDocument.load(pdfFile)) {
-            for (PDPage page : document.getPages()) {
-                PDRectangle pageSize = page.getMediaBox();
-                float widthInPoints = (float) pageSize.getWidth();
-                float heightInPoints = (float) pageSize.getHeight();
+   /**
+     * Obtiene el autor de un archivo PDF.
+     * Si no se encuentra un autor, se devuelve "No existe autor".
+     *
+     * @param filePath La ruta al archivo PDF del que se desea obtener el autor.
+     * @return El autor del PDF o "No existe autor" si no se encuentra.
+     */
+    public static String getAuthorPDF(String filePath) {
+        try (PDDocument document = PDDocument.load(new File(filePath))) {
+            PDDocumentInformation info = document.getDocumentInformation();
+            String author = info.getAuthor();
 
-                // Convertir de puntos a pulgadas (1 pulgada = 72 puntos)
-                widthInInches = widthInPoints / 72.0f;
-                heightInInches = heightInPoints / 72.0f;
-                break;
+            if (author != null && !author.isEmpty()) {
+                return author;
+            } else {
+                return "No existe autor";
             }
-            sizeInfo = "Ancho: " + widthInInches + " pulgadas, Alto: " + heightInInches + " pulgadas";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error al abrir el archivo PDF";
         }
+    }
+   
+    /**
+   * Obtiene el tamaño general promedio de todas las páginas de un archivo PDF.
+   *
+   * @param pdfFilePath La ruta del archivo PDF del que se desea obtener el tamaño general.
+   * @return Una cadena de texto que representa el tamaño general promedio del PDF en pulgadas.
+   * @throws IOException Si ocurre un error al cargar el archivo PDF.
+   */
+  public static String getPageSizesFromPDF(String pdfFilePath) throws IOException {
+      File pdfFile = new File(pdfFilePath);
+      float totalWidthInPoints = 0;
+      float totalHeightInPoints = 0;
+      int pageCount = 0;
 
-        return sizeInfo;
-   }
+      try (PDDocument document = PDDocument.load(pdfFile)) {
+          for (PDPage page : document.getPages()) {
+              PDRectangle pageSize = page.getMediaBox();
+              totalWidthInPoints += pageSize.getWidth();
+              totalHeightInPoints += pageSize.getHeight();
+              pageCount++;
+          }
+
+          // Calcular el promedio de ancho y alto
+          float averageWidthInPoints = totalWidthInPoints / pageCount;
+          float averageHeightInPoints = totalHeightInPoints / pageCount;
+
+          // Convertir de puntos a pulgadas (1 pulgada = 72 puntos)
+          float averageWidthInInches = averageWidthInPoints / 72.0f;
+          float averageHeightInInches = averageHeightInPoints / 72.0f;
+
+          return averageWidthInInches + "x" + averageHeightInInches + " pulgadas";
+      }
+  }
+
    
    /**
     * Obtiene el número de páginas de un archivo PDF.
@@ -95,7 +122,7 @@ public class PDFMetadata {
 
        try (PDDocument document = PDDocument.load(pdfFile)) {
            String title = document.getDocumentInformation().getTitle();
-           return title != null ? title : "";
+           return title != null ? title : "No tiene título";
        }
    }
    
@@ -182,7 +209,7 @@ public class PDFMetadata {
 
        try (PDDocument document = PDDocument.load(pdfFile)) {
            String subject = document.getDocumentInformation().getSubject();
-           return subject != null ? subject : "";
+           return subject != null ? subject : "No tiene asunto";
        }
    }
    
@@ -198,7 +225,7 @@ public class PDFMetadata {
 
        try (PDDocument document = PDDocument.load(pdfFile)) {
            String keywords = document.getDocumentInformation().getKeywords();
-           return keywords != null ? keywords : "";
+           return keywords != null ? keywords : "No tiene palabras claves";
        }
    }
    
@@ -230,11 +257,11 @@ public class PDFMetadata {
 
        try (PDDocument document = PDDocument.load(pdfFile)) {
            String creator = document.getDocumentInformation().getCreator();
-           return creator != null ? creator : "";
+           return creator != null ? creator : "Aplicación desconocido";
        }
    }
    
-   /**
+     /**
     * Obtiene la fecha de creación de un archivo PDF.
     *
     * @param pdfFilePath La ruta al archivo PDF del cual deseas obtener la fecha de creación.
@@ -243,23 +270,26 @@ public class PDFMetadata {
    public static String getPDFCreationDate(String pdfFilePath) {
        try {
            File pdfFile = new File(pdfFilePath);
-           PDDocument document = PDDocument.load(pdfFile);
-           PDDocumentInformation info = document.getDocumentInformation();
-           Calendar fechaCreacion = info.getCreationDate();
+           Calendar fechaCreacion = null;
+
+           try (PDDocument document = PDDocument.load(pdfFile)) {
+               PDDocumentInformation info = document.getDocumentInformation();
+               fechaCreacion = info.getCreationDate();
+           }
 
            if (fechaCreacion != null) {
                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
                return dateFormat.format(fechaCreacion.getTime()); // Obtén la fecha como un objeto Date y formatea eso.
            } else {
-               return "";
+               return "No tiene fecha de creación";
            }
        } catch (IOException e) {
            e.printStackTrace();
-           return "";
+           return "No tiene fecha de creación";
        }
    }
-   
-   /**
+
+    /**
     * Obtiene la herramienta de creación del archivo PDF.
     *
     * @param pdfFilePath La ruta al archivo PDF del cual deseas obtener la herramienta de creación.
@@ -268,32 +298,32 @@ public class PDFMetadata {
    public static String getCreationToolPDF(String pdfFilePath) {
        try {
            File pdfFile = new File(pdfFilePath);
-           PDDocument document = PDDocument.load(pdfFile);
-           PDDocumentInformation info = document.getDocumentInformation();
-           String herramientaCreacion = info.getProducer();
+           String herramientaCreacion = null;
+
+           try (PDDocument document = PDDocument.load(pdfFile)) {
+               PDDocumentInformation info = document.getDocumentInformation();
+               herramientaCreacion = info.getProducer();
+           }
 
            if (herramientaCreacion != null && !herramientaCreacion.isEmpty()) {
                return herramientaCreacion;
            } else {
-               return "";
+               return "Herramienta desconocida";
            }
        } catch (IOException e) {
            e.printStackTrace();
-           return "";
+           return "Herramienta desconocida";
        }
    }
    
-   /**
+    /**
      * Obtiene el resumen de un archivo PDF.
      *
      * @param pdfFilePath La ruta al archivo PDF del que se desea extraer el resumen.
      * @return El resumen del PDF si se encuentra, o "No hay resumen" si no se encuentra.
      */
     public static String getSummaryFromPdf(String pdfFilePath) {
-        try {
-            File file = new File(pdfFilePath);
-            PDDocument document = PDDocument.load(file);
-
+        try (PDDocument document = PDDocument.load(new File(pdfFilePath))) {
             PDFTextStripper textStripper = new PDFTextStripper();
             String pdfText = textStripper.getText(document);
 
@@ -320,8 +350,6 @@ public class PDFMetadata {
                 }
             }
 
-            document.close();
-
             if (summary.length() > 0) {
                 return summary.toString().trim();
             } else {
@@ -334,88 +362,78 @@ public class PDFMetadata {
     }
     
     /**
-     * Obtiene fuentes de las imágenes en un archivo PDF.
-     *
-     * @param pdfFilePath La ruta al archivo PDF del que se desea extraer las fuentes.
-     * @return Una lista de fuentes encontradas en el PDF o "No existen fuentes" si no se encuentran.
-     */
-    public static String getSourcesImagePdf(String pdfFilePath) {
-        try {
-            File file = new File(pdfFilePath);
-            PDDocument document = PDDocument.load(file);
+    * Obtiene fuentes de las imágenes en un archivo PDF.
+    *
+    * @param pdfFilePath La ruta al archivo PDF del que se desea extraer las fuentes.
+    * @return Una lista de fuentes encontradas en el PDF o "No existen fuentes" si no se encuentran.
+    */
+   public static String getSourcesImagePdf(String pdfFilePath) {
+       try (PDDocument document = PDDocument.load(new File(pdfFilePath))) {
+           PDFTextStripper textStripper = new PDFTextStripper();
+           String pdfText = textStripper.getText(document);
 
-            PDFTextStripper textStripper = new PDFTextStripper();
-            String pdfText = textStripper.getText(document);
+           String[] lines = pdfText.split(System.lineSeparator());
 
-            String[] lines = pdfText.split(System.lineSeparator());
+           StringBuilder sources = new StringBuilder();
+           boolean foundSource = false;
 
-            StringBuilder sources = new StringBuilder();
-            boolean foundSource = false;
+           for (String line : lines) {
+               if (line.toLowerCase().contains("fuente:")) {
+                   foundSource = true;
+                   sources.append(line).append(System.lineSeparator());
+               } else if (foundSource) {
+                   // Si ya se encontró una fuente, sigue agregando líneas hasta encontrar una en blanco
+                   if (line.trim().isEmpty()) {
+                       foundSource = false;
+                   } else {
+                       sources.append(line).append(System.lineSeparator());
+                   }
+               }
+           }
 
-            for (String line : lines) {
-                if (line.toLowerCase().contains("fuente:")) {
-                    foundSource = true;
-                    sources.append(line).append(System.lineSeparator());
-                } else if (foundSource) {
-                    // Si ya se encontró una fuente, sigue agregando líneas hasta encontrar una en blanco
-                    if (line.trim().isEmpty()) {
-                        foundSource = false;
-                    } else {
-                        sources.append(line).append(System.lineSeparator());
-                    }
-                }
-            }
-
-            document.close();
-
-            if (sources.length() > 0) {
-                return sources.toString().trim();
-            } else {
-                return "No existen fuentes";
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Error al procesar el archivo PDF: " + e.getMessage();
-        }
-    }
+           if (sources.length() > 0) {
+               return sources.toString().trim();
+           } else {
+               return "No existen fuentes";
+           }
+       } catch (IOException e) {
+           e.printStackTrace();
+           return "Error al procesar el archivo PDF: " + e.getMessage();
+       }
+   }
     
     /**
-     * Obtiene la cantidad de imágenes en un archivo PDF.
-     *
-     * @param pdfFilePath La ruta al archivo PDF del que se desea contar las imágenes.
-     * @return El número de imágenes en el PDF o "No hay imágenes" si no se encuentran.
-     */
-    public static String getImagesInPdf(String pdfFilePath) {
-        try {
-            File file = new File(pdfFilePath);
-            PDDocument document = PDDocument.load(file);
+    * Obtiene la cantidad de imágenes en un archivo PDF.
+    *
+    * @param pdfFilePath La ruta al archivo PDF del que se desea contar las imágenes.
+    * @return El número de imágenes en el PDF o "No hay imágenes" si no se encuentran.
+    */
+   public static String getImagesInPdf(String pdfFilePath) {
+       try (PDDocument document = PDDocument.load(new File(pdfFilePath))) {
+           int imageCount = 0;
 
-            int imageCount = 0;
+           for (PDPage page : document.getPages()) {
+               PDResources resources = page.getResources();
+               if (resources != null) {
+                   for (COSName xObjectName : resources.getXObjectNames()) {
+                       PDXObject xObject = resources.getXObject(xObjectName);
+                       if (xObject instanceof PDImageXObject) {
+                           imageCount++;
+                       }
+                   }
+               }
+           }
 
-            for (PDPage page : document.getPages()) {
-                PDResources resources = page.getResources();
-                if (resources != null) {
-                    for (COSName xObjectName : resources.getXObjectNames()) {
-                        PDXObject xObject = resources.getXObject(xObjectName);
-                        if (xObject instanceof PDImageXObject) {
-                            imageCount++;
-                        }
-                    }
-                }
-            }
-
-            document.close();
-
-            if (imageCount > 0) {
-                return "Número de imágenes en el PDF: " + imageCount;
-            } else {
-                return "No hay imágenes";
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "Error al procesar el archivo PDF: " + e.getMessage();
-        }
-    }
+           if (imageCount > 0) {
+               return "Número de imágenes: " + imageCount;
+           } else {
+               return "No hay imágenes";
+           }
+       } catch (IOException e) {
+           e.printStackTrace();
+           return "Error al procesar el archivo PDF: " + e.getMessage();
+       }
+   }
     
 }
 
