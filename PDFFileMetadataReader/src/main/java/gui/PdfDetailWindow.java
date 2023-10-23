@@ -4,8 +4,11 @@
  */
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.SimpleAttributeSet;
 import pdfmetadatareader.PDFFile;
@@ -82,6 +85,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private void initialTable(){  
         modelT1.setColumnIdentifiers(headJ1);
         Tabla1.setModel(modelT1);
+        Tabla1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         modelT1.addRow((Object[]) takeDataJ1());
         modelT2.setColumnIdentifiers(headJ2);
         jTable2.setModel(modelT2);
@@ -414,6 +418,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jRadioButtonMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+
         saverDataNew();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
