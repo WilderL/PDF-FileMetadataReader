@@ -104,6 +104,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         jTextPane1.setContentType("text/html"); // Establecer el tipo de contenido HTML
         jTextPane1.setText(pdfFile.getAnotaciones());
         jTextPane2.setText(resumen);
+        jMenuItem2.setEnabled(false);
     }
     
     //Modelo con las opciones de modificaciones:
@@ -461,8 +462,8 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         } catch (BadLocationException ex) {
             Logger.getLogger(PdfDetailWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
-        jMenuItem2.setEnabled(false);
-        jMenuItem5.setEnabled(true);
+        jMenuItem2.setEnabled(true);
+        jMenuItem5.setEnabled(false);
         this.MainWindow.savePDFFileList();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -485,6 +486,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
             Logger.getLogger(PdfDetailWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
         jMenuItem5.setEnabled(false);
+        jMenuItem2.setEnabled(true);
         
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
