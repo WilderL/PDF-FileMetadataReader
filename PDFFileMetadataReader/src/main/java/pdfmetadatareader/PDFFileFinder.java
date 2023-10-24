@@ -57,6 +57,7 @@ public class PDFFileFinder {
                             String pdfFilePath = file.getAbsolutePath();
                              tamanoArchivo = PDFMetadata.getPDFSizeInMB(pdfFilePath);
                              tamanoPagina =  PDFMetadata.getPageSizesFromPDF(pdfFilePath);
+                             numeroPaginas = PDFMetadata.getNumberOfPagesInPDF(pdfFilePath);
                              titulo = PDFMetadata.getPDFTitle(pdfFilePath);
                              autor = PDFMetadata.getAuthorPDF(pdfFilePath);
                              nombreArchivo = PDFMetadata.getPDFFileName(pdfFilePath);
