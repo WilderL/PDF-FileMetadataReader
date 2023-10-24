@@ -68,7 +68,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     // Datos para llenar la tabla superior
     private Object takeDataJ1(){
         String nombre = pdfFile.getNombreArchivo();
-        String autor = pdfFile.getAsunto();
+        String autor = pdfFile.getAutor();
         String asunto = pdfFile.getAsunto();
         String titulo = pdfFile.getTitulo();
         String palabrasClave = pdfFile.getPalabrasClave();
