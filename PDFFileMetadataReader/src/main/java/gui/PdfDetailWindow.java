@@ -29,7 +29,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private SimpleAttributeSet atributos;
     private PDFFile pdfFile;
     private String [] headJ1 = new String[]{"Nombre", "Autor","Asunto", "Titulo", "Palabras clave", "Fecha de creacion","Tipo de archivo"};
-    private String [] headJ2 = new String[]{"Tamaño (Mb)","Numero de paginas", "Tamaño de página", "Version pdf", "Aplicación de creación", "Imagenes", "Fuentes", "Herramienta de creación"};
+    private String [] headJ2 = new String[]{"Tamaño (Mb)", "Numero de paginas", "Tamaño de página", "Version pdf", "Aplicación de creación", "Imagenes", "Fuentes", "Herramienta de creación"};
     
     // Modelo inicial de la tabla superior para mejor manejo
     private DefaultTableModel modelT1 = new DefaultTableModel(){
@@ -68,7 +68,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     // Datos para llenar la tabla superior
     private Object takeDataJ1(){
         String nombre = pdfFile.getNombreArchivo();
-        String autor = pdfFile.getAutor();
+        String autor = pdfFile.getAsunto();
         String asunto = pdfFile.getAsunto();
         String titulo = pdfFile.getTitulo();
         String palabrasClave = pdfFile.getPalabrasClave();
