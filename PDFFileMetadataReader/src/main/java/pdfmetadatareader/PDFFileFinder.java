@@ -15,7 +15,7 @@ import java.util.List;
  * Clase que busca archivos PDF en una carpeta y sus subcarpetas, almacenando información sobre ellos.
  */
 public class PDFFileFinder {
-    private long tamanoArchivo;
+    private double tamanoArchivo;
     private String tamanoPagina;
     private int numeroPaginas;
     private String titulo;
@@ -55,7 +55,7 @@ public class PDFFileFinder {
                         // Si es un archivo, verifica si es un archivo PDF.
                         if (file.getName().toLowerCase().endsWith(".pdf")) {
                             String pdfFilePath = file.getAbsolutePath();
-                             tamanoArchivo = (long) PDFMetadata.getPDFSizeInMB(pdfFilePath);
+                             tamanoArchivo = PDFMetadata.getPDFSizeInMB(pdfFilePath);
                              tamanoPagina =  PDFMetadata.getPageSizesFromPDF(pdfFilePath);
                              titulo = PDFMetadata.getPDFTitle(pdfFilePath);
                              autor = PDFMetadata.getAuthorPDF(pdfFilePath);

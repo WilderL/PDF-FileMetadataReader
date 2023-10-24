@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Clase que representa la información de un archivo PDF.
  */
 public class PDFFile implements Serializable{
-    private long tamanoArchivo;
+    private double tamanoArchivo;
     private String tamanoPagina;
     private int numeroPaginas;
     private String titulo;
@@ -44,7 +44,7 @@ public class PDFFile implements Serializable{
      * @param herramientasCreacion Las herramientas utilizadas en la creación del PDF.
      * @param resumen Un resumen del contenido del PDF.
      */
-    public PDFFile(long tamanoArchivo, String tamanoPagina, int numeroPaginas, String titulo, 
+    public PDFFile(double tamanoArchivo, String tamanoPagina, int numeroPaginas, String titulo, 
             String autor, String nombreArchivo, String asunto, String palabrasClave, String tipoArchivoPDF, 
             String versionPDF, String aplicacionCreacion, String listaImagenes, String listaFuentes, 
             String fechaCreacion, String herramientasCreacion, String resumen) {    
@@ -71,7 +71,7 @@ public class PDFFile implements Serializable{
      *
      * @return El tamaño del archivo en bytes.
      */
-    public long getTamanoArchivo() {
+    public double getTamanoArchivo() {
         return tamanoArchivo;
     }
 
@@ -80,7 +80,7 @@ public class PDFFile implements Serializable{
      *
      * @param tamanoArchivo El tamaño del archivo en bytes a establecer.
      */
-    public void setTamanoArchivo(long tamanoArchivo) {
+    public void setTamanoArchivo(double tamanoArchivo) {
         this.tamanoArchivo = tamanoArchivo;
     }
 

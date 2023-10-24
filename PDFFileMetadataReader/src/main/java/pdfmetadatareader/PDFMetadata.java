@@ -3,6 +3,7 @@ package pdfmetadatareader;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -21,7 +22,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
  * Clase que proporciona utilidades para la extracción de metadatos y análisis de archivos PDF.
  */
 public class PDFMetadata {
-    /**
+       /**
     * Obtiene el tamaño de un archivo PDF en megabytes (MB).
     *
     * @param pdfFilePath La ruta del archivo PDF del que se desea obtener el tamaño.
@@ -33,10 +34,17 @@ public class PDFMetadata {
        // Obtén el tamaño del archivo PDF en bytes
        long fileSizeBytes = pdfFile.length();
 
-       // Convierte los bytes a megabytes (1 MB = 1024 * 1024 bytes)
+       // Convierte los bytes a megabytes (1 MB = 1024 * 1024 bytes) con al menos 4 decimales
        double fileSizeMB = (double) fileSizeBytes / (1024 * 1024);
 
-       return fileSizeMB;
+       // Formatea el resultado para que tenga al menos 4 decimales
+       DecimalFormat df = new DecimalFormat("#.####");
+       String formattedFileSize = df.format(fileSizeMB);
+
+       // Convierte el valor formateado nuevamente a double
+       double fileSize = Double.parseDouble(formattedFileSize);
+
+       return fileSize;
    }
    
    /**

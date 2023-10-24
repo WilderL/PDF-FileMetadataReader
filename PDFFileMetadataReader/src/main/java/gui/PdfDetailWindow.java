@@ -79,7 +79,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     }
     // Datos para llenar la tabla inferior
     private Object takeDataJ2(){
-        Long tamano = pdfFile.getTamanoArchivo();
+        double tamano = pdfFile.getTamanoArchivo();
         int tamanoPaginas = pdfFile.getNumeroPaginas();
         String version = pdfFile.getVersionPDF();
         String aplicacion = pdfFile.getAplicacionCreacion();
