@@ -6,11 +6,20 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Element;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import pdfmetadatareader.PDFFile;
 
 
@@ -91,11 +100,13 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         jTable2.setModel(modelT2);
         modelT2.addRow((Object[]) takeDataJ2());
         String resumen = pdfFile.getResumen();
+        jTextPane1.setContentType("text/html"); // Establecer el tipo de contenido HTML
+        jTextPane1.setText(pdfFile.getAnotaciones());
         jTextPane2.setText(resumen);
     }
     
     //Modelo con las opciones de modificaciones:
-    private void editableEnable(){
+    private void editableEnable() throws BadLocationException{
         modelT1U.setColumnIdentifiers(headJ1);
         Tabla1.setModel(modelT1U);
         modelT1U.addRow((Object[]) takeDataJ1());
@@ -103,25 +114,55 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         jTable2.setModel(modelT2U);
         modelT2U.addRow((Object[]) takeDataJ2());
         String resumen = pdfFile.getResumen();
+        jTextPane1.setContentType("text/html"); // Establecer el tipo de contenido HTML
+        jTextPane1.setText(pdfFile.getAnotaciones());
         jTextPane2.setText(resumen);
+        jTextPane1.setEditable(true);
+        jTextPane2.setEditable(true);
+    }
+    
+    public String obtenerTextoConFormato() throws BadLocationException {
+        StyledDocument doc = jTextPane1.getStyledDocument();
+        int length = doc.getLength();
+        String texto = jTextPane1.getText();
+        List<String> textoConEstilos = new ArrayList<>();
+
+        for (int i = 0; i < length; i++) {
+            Element element = doc.getCharacterElement(i);
+            AttributeSet atributos = element.getAttributes();
+            String textoFragmento;
+
+            // Verificar los estilos aplicados
+            if (StyleConstants.isBold(atributos)) {
+                textoFragmento = "<b>" + doc.getText(i, 1) + "</b>";
+            } else if (StyleConstants.isItalic(atributos)) {
+                textoFragmento = "<i>" + doc.getText(i, 1) + "</i>";
+            } else if (StyleConstants.isUnderline(atributos)) {
+                textoFragmento = "<u>" + doc.getText(i, 1) + "</u>";
+            } else {
+                textoFragmento = doc.getText(i, 1);
+            }
+
+            textoConEstilos.add(textoFragmento);
+            }
+        
+        return String.join("", textoConEstilos);
     }
     
     // Funcion para guardar los datos modificados:
-    private void saverDataNew(){
+    private void saverDataNew() throws BadLocationException{
         Object nombre = modelT1U.getValueAt(0, 0);
         Object asunto = modelT1U.getValueAt(0,2);
         Object titulo = modelT1U.getValueAt(0,3);
         Object palabrasClave = modelT1U.getValueAt(0,4);
         String resumen = jTextPane2.getText();
-        String anotaciones = jTextPane1.getText();
-        
+        String anotaciones = obtenerTextoConFormato();
         pdfFile.setNombreArchivo((String) nombre);
         pdfFile.setAsunto((String) asunto);
         pdfFile.setTitulo((String) titulo);
         pdfFile.setPalabrasClave((String) palabrasClave);
         pdfFile.setResumen(resumen);
         pdfFile.setAnotaciones(anotaciones);
-        
         JOptionPane.showMessageDialog(null, "Datos guardados con éxito", "Aviso", JOptionPane.DEFAULT_OPTION);
     }
     
@@ -135,7 +176,8 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         this.pdfFile = pdfFile;
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         initialTable();
-        jMenuItem2.setEnabled(false);
+        jTextPane1.setEditable(false);
+        jTextPane2.setEditable(false);
     }
     
     
@@ -412,9 +454,14 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        saverDataNew();
+        try {
+            saverDataNew();
+        } catch (BadLocationException ex) {
+            Logger.getLogger(PdfDetailWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jMenuItem2.setEnabled(false);
         jMenuItem5.setEnabled(true);
+        this.MainWindow.savePDFFileList();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void Button_boldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_boldActionPerformed
@@ -430,9 +477,13 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_italicActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        editableEnable();
+        try {
+            editableEnable();
+        } catch (BadLocationException ex) {
+            Logger.getLogger(PdfDetailWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         jMenuItem5.setEnabled(false);
-        jMenuItem2.setEnabled(true);
+        
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

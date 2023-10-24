@@ -53,11 +53,14 @@ public final class Main_window extends javax.swing.JFrame {
         };
     
     public void chargerpdfs(){
+        model.setRowCount(0);
         for (int i = 0; i < pdfFiles.size(); i++) {
             PDFFile pdf = pdfFiles.get(i);    
-            model.addRow(new Object[]{pdf.getNombreArchivo(),"No hay autor aun",pdf.getAsunto()});
+            model.addRow(new Object[]{pdf.getNombreArchivo(),pdf.getAutor(),pdf.getAsunto()});
         }
     }
+    
+   
     
     public void createTable(){
         model.setColumnIdentifiers(headJ1);
@@ -222,7 +225,11 @@ public final class Main_window extends javax.swing.JFrame {
         metodos.delete();
         String folderPath = metodos.find();
         try {
-            pdfFiles.add((PDFFile) Save.findPdfFiles(folderPath));
+            List<PDFFile> newpdfList = Save.findPdfFiles(folderPath);
+            
+            for (PDFFile pdf : newpdfList) {
+                pdfFiles.add(pdf);
+            }
             savePDFFileList();
         } catch (IOException ex) {
             Logger.getLogger(Main_window.class.getName()).log(Level.SEVERE, null, ex);

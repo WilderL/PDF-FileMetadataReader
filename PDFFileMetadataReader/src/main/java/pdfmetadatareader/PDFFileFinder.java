@@ -129,7 +129,7 @@ public class PDFFileFinder {
      * @param pdfFileList La lista de archivos PDF a ordenar.
      * @return Una nueva lista ordenada por autor.
      */
-    public static List<PDFFile> sortByAuthor(List<PDFFile> pdfFileList) {
+    public List<PDFFile> sortByAuthor(List<PDFFile> pdfFileList) {
         if (isSortedByAuthor(pdfFileList)) {
             Collections.reverse(pdfFileList);
         } else {
@@ -144,7 +144,7 @@ public class PDFFileFinder {
      * @param pdfFileList La lista de archivos PDF a ordenar.
      * @return Una nueva lista ordenada por asunto.
      */
-    public static List<PDFFile> sortBySubject(List<PDFFile> pdfFileList) {
+    public List<PDFFile> sortBySubject(List<PDFFile> pdfFileList) {
         if (isSortedBySubject(pdfFileList)) {
             Collections.reverse(pdfFileList);
         } else {
