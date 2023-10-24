@@ -29,7 +29,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     private SimpleAttributeSet atributos;
     private PDFFile pdfFile;
     private String [] headJ1 = new String[]{"Nombre", "Autor","Asunto", "Titulo", "Palabras clave", "Fecha de creacion","Tipo de archivo"};
-    private String [] headJ2 = new String[]{"Tamaño (Mb)","Numero de paginas", "Tamaño de página", "Version pdf", "Aplicación de creación", "Imagenes", "Fuentes", "Herramienta de creación"};
+    private String [] headJ2 = new String[]{"Tamaño (Mb)", "Tamaño de página", "Version pdf", "Aplicación de creación", "Imagenes", "Fuentes", "Herramienta de creación"};
     
     // Modelo inicial de la tabla superior para mejor manejo
     private DefaultTableModel modelT1 = new DefaultTableModel(){
@@ -68,7 +68,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     // Datos para llenar la tabla superior
     private Object takeDataJ1(){
         String nombre = pdfFile.getNombreArchivo();
-        String autor = pdfFile.getAutor();
+        String autor = "Todavía no hay xd";
         String asunto = pdfFile.getAsunto();
         String titulo = pdfFile.getTitulo();
         String palabrasClave = pdfFile.getPalabrasClave();
@@ -80,15 +80,14 @@ public class PdfDetailWindow extends javax.swing.JFrame {
     // Datos para llenar la tabla inferior
     private Object takeDataJ2(){
         double tamano = pdfFile.getTamanoArchivo();
-        int numeroPaginas = pdfFile.getNumeroPaginas();
-        String tamanoPaginas = pdfFile.getTamanoPagina();
+        int tamanoPaginas = pdfFile.getNumeroPaginas();
         String version = pdfFile.getVersionPDF();
         String aplicacion = pdfFile.getAplicacionCreacion();
         String imagenes = pdfFile.getListaImagenes();
         String fuentes = pdfFile.getListaFuentes();
         String herramientas = pdfFile.getHerramientasCreacion();
         
-        return new Object[]{tamano,numeroPaginas,tamanoPaginas,version,aplicacion,imagenes,fuentes,herramientas};
+        return new Object[]{tamano,tamanoPaginas,version,aplicacion,imagenes,fuentes,herramientas};
     }
     
     // Tabla inicial con datos restringidos
