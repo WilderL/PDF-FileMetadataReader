@@ -121,7 +121,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         jTextPane1.setEditable(true);
         jTextPane2.setEditable(true);
     }
-    
+    // Obtiene el texto del jPane con formato html.
     public String obtenerTextoConFormato() throws BadLocationException {
         StyledDocument doc = jTextPane1.getStyledDocument();
         int length = doc.getLength();
@@ -167,6 +167,7 @@ public class PdfDetailWindow extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Datos guardados con éxito", "Aviso", JOptionPane.DEFAULT_OPTION);
     }
     
+    // Inicializador de la ventana
     public PdfDetailWindow(Main_window MainWindow, PDFFile pdfFile) {
         initComponents();
         atributos = new SimpleAttributeSet();

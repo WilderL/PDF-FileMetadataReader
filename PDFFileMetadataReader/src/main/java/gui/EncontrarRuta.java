@@ -9,6 +9,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * Clase para encontar la ruta definitiva seleccionada, escribir y borrar.
+ */
 public class EncontrarRuta {
     public String find(){
         JFileChooser fileChooser = new JFileChooser();
@@ -27,6 +30,10 @@ public class EncontrarRuta {
                     return "";
                 }  
     }
+/**
+     * Escribe el path en el archivo folderPath.txt.
+     *@param ruta Ruta encontrada en el metodo find.
+     */    
     public void escribir(String ruta) {
         try{
             PrintWriter writer = new PrintWriter(new FileWriter("folderPath.txt",true));
@@ -37,7 +44,11 @@ public class EncontrarRuta {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+/**
+     * Comprueba si ya existe el archivo folderPath.txt.
+     *
+     * @return boolean 
+     */
     public boolean comprobarExistencia(){
         File file = new File("folderPath.txt");
         
@@ -48,6 +59,10 @@ public class EncontrarRuta {
             return false;
         }       
     }
+/**
+     * Método para sobreescribir el archivo folderPath.txt.
+     *
+     */
     
     public void delete(){
         try (PrintWriter writer = new PrintWriter(new FileWriter("folderPath.txt"))) {

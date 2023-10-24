@@ -2,7 +2,9 @@
 package gui;
 
 import javax.swing.table.DefaultTableModel;
-
+/**
+ * Clase que representa la personalizacion de la tabla.
+ */
 public class CustomTableModel extends DefaultTableModel {
 
     private boolean allowEditing = true; 
@@ -18,7 +20,6 @@ public class CustomTableModel extends DefaultTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        // Permite o evita la edición basándose en el estado de allowEditing
         return allowEditing;
     }
 }

@@ -27,23 +27,25 @@ public final class Main_window extends javax.swing.JFrame {
     private String [] headJ1 = new String[]{"Nombre", "Autor", "Asunto"};
     private PDFFileFinder Save = new PDFFileFinder();
     
+    // Guarda la nueva lista
     public void savePDFFileList() {
         Save.savePDFFileList(pdfFiles);
         pdfFiles = Save.loadPDFFileList();
     }
-    
+    //Método para llamar al ordenamiento por autor
     public void ordenarAutor(){
         pdfFiles = Save.sortByAuthor(pdfFiles);
         savePDFFileList();
         createTable();
     }
-    
+    //Método para llamar al ordenamiento por asunto
     public void ordenarAsunto(){
         pdfFiles = Save.sortBySubject(pdfFiles);
         savePDFFileList();
         createTable();
     }
     
+    // Metodo para establecer la no edicion de las tablas.
     private DefaultTableModel model = new DefaultTableModel(){
             boolean[] canEdit = new boolean[]{false,false,false};
                 @Override
@@ -52,6 +54,7 @@ public final class Main_window extends javax.swing.JFrame {
             }
         };
     
+    // Método para cargar pdfs.
     public void chargerpdfs(){
         model.setRowCount(0);
         for (int i = 0; i < pdfFiles.size(); i++) {
@@ -59,9 +62,7 @@ public final class Main_window extends javax.swing.JFrame {
             model.addRow(new Object[]{pdf.getNombreArchivo(),pdf.getAutor(),pdf.getAsunto()});
         }
     }
-    
-   
-    
+    // Método para la creacion de la tabla.
     public void createTable(){
         model.setColumnIdentifiers(headJ1);
         jTable1.setModel(model);

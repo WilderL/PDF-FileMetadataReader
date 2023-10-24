@@ -7,31 +7,33 @@ import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
-    public class StyleButtonActionListener implements ActionListener {
-        private JTextPane textPane;
-        private String styleName;
-        private SimpleAttributeSet currentStyle;
+/**
+ * Clase que representa la modificacion de los estilos en un jPane.
+ */
+public class StyleButtonActionListener implements ActionListener {
+    private JTextPane textPane;
+    private String styleName;
+    private SimpleAttributeSet currentStyle;
 
-        public StyleButtonActionListener(JTextPane textPane, String styleName, SimpleAttributeSet currentStyle) {
-            this.textPane = textPane;
-            this.styleName = styleName;
-            this.currentStyle = currentStyle;
+    public StyleButtonActionListener(JTextPane textPane, String styleName, SimpleAttributeSet currentStyle) {
+        this.textPane = textPane;
+        this.styleName = styleName;
+        this.currentStyle = currentStyle;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        switch (styleName) {
+        case "bold":
+        StyleConstants.setBold(currentStyle, !StyleConstants.isBold(currentStyle));
+            break;
+        case "italic":
+            StyleConstants.setItalic(currentStyle, !StyleConstants.isItalic(currentStyle));
+            break;
+        case "underline":
+            StyleConstants.setUnderline(currentStyle, !StyleConstants.isUnderline(currentStyle));
+            break;
         }
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            switch (styleName) {
-                case "bold":
-                    StyleConstants.setBold(currentStyle, !StyleConstants.isBold(currentStyle));
-                    break;
-                case "italic":
-                    StyleConstants.setItalic(currentStyle, !StyleConstants.isItalic(currentStyle));
-                    break;
-                case "underline":
-                    StyleConstants.setUnderline(currentStyle, !StyleConstants.isUnderline(currentStyle));
-                    break;
-            }
-
-            textPane.setCharacterAttributes(currentStyle, false);
+        textPane.setCharacterAttributes(currentStyle, false);
         }
     }
